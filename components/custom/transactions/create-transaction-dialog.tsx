@@ -23,7 +23,7 @@ import {
 } from '@/schema/transaction-schema';
 import { TransactionType } from '@/types/transactions';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { CategoryPicker } from './category-picker';
 
@@ -37,9 +37,18 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
         resolver: zodResolver(CreateTransactionSchema),
         defaultValues: {
             type: type,
+            description: '',
+            amount: 0,
             date: new Date(),
         },
     });
+
+    const handleCategoryChange = useCallback(
+        (val: string) => {
+            form.setValue('category', val);
+        },
+        [form]
+    );
 
     return (
         <Dialog>
@@ -69,7 +78,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Input defaultValue={''} {...field} />
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Transaction description (optional)
@@ -86,7 +95,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                 <FormItem>
                                     <FormLabel>Amount</FormLabel>
                                     <FormControl>
-                                        <Input type="tel" defaultValue={0} {...field} />
+                                        <Input type="tel" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Transaction amount (required)
@@ -104,7 +113,10 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                     <FormItem>
                                         <FormLabel>Category</FormLabel>
                                         <FormControl>
-                                            <CategoryPicker type={type} />
+                                            <CategoryPicker
+                                                type={type}
+                                                onChange={handleCategoryChange}
+                                            />
                                         </FormControl>
                                         <FormDescription>
                                             Select a category for this transaction
