@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import { updateUserCurrency } from '@/app/wizard/_actions/user-settings';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -17,7 +18,8 @@ import { Currencies } from '@/constants/currencies';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { ICurrency } from '@/types/currency';
 import { UserSettings } from '@prisma/client';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { SkeletonWrapper } from '../skeleton/skeleton-wrapper';
 
 export function CurrencyCombobox() {
@@ -50,6 +52,38 @@ export function CurrencyCombobox() {
         }
     }, [userSettings.data]);
 
+    const updateCurrency = useMutation({
+        mutationFn: updateUserCurrency,
+        onSuccess: (data: UserSettings) => {
+            toast.success('Currency updated successfully 🎉', {
+                id: 'update-currency',
+            });
+
+            setSelectedOption(
+                Currencies.find((cur) => cur.value === data.currency) || null
+            );
+        },
+        onError: (error) => {
+            toast.error('Something went wrong', { id: 'update-currency' });
+        },
+    });
+
+    const handleOptionSelect = React.useCallback(
+        (currency: ICurrency | null) => {
+            if (!currency) {
+                toast.error('Please select a currency.');
+                return;
+            }
+
+            toast.loading('Updating currency...', {
+                id: 'update-currency',
+            });
+
+            updateCurrency.mutate(currency.value);
+        },
+        [updateCurrency]
+    );
+
     if (isDesktop) {
         return (
             <SkeletonWrapper isLoading={userSettings.isFetching}>
@@ -57,6 +91,7 @@ export function CurrencyCombobox() {
                     <PopoverTrigger asChild>
                         <Button
                             ref={popoverRef}
+                            disabled={updateCurrency.isPending}
                             variant="outline"
                             className="w-full justify-start"
                         >
@@ -76,7 +111,7 @@ export function CurrencyCombobox() {
                     >
                         <OptionList
                             setOpen={setOpen}
-                            setSelectedOption={setSelectedOption}
+                            setSelectedOption={handleOptionSelect}
                         />
                     </PopoverContent>
                 </Popover>
@@ -88,7 +123,11 @@ export function CurrencyCombobox() {
         <SkeletonWrapper isLoading={userSettings.isFetching}>
             <Drawer open={open} onOpenChange={setOpen}>
                 <DrawerTrigger asChild>
-                    <Button variant="outline" className="w-[150px] justify-start">
+                    <Button
+                        disabled={updateCurrency.isPending}
+                        variant="outline"
+                        className="w-[150px] justify-start"
+                    >
                         {selectedOption ? <>{selectedOption.label}</> : <>Set Currency</>}
                     </Button>
                 </DrawerTrigger>
@@ -96,7 +135,7 @@ export function CurrencyCombobox() {
                     <div className="mt-4 border-t">
                         <OptionList
                             setOpen={setOpen}
-                            setSelectedOption={setSelectedOption}
+                            setSelectedOption={handleOptionSelect}
                         />
                     </div>
                 </DrawerContent>
@@ -130,6 +169,7 @@ function OptionList({
                                 );
                                 setOpen(false);
                             }}
+                            className="cursor-pointer"
                         >
                             {currency.label}
                         </CommandItem>
