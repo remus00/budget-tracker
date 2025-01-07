@@ -19,12 +19,7 @@ export default function RootLayout({
 }>) {
     return (
         <ClerkProvider>
-            <html
-                lang="en"
-                className="dark"
-                style={{ colorScheme: 'dark' }}
-                suppressHydrationWarning
-            >
+            <html lang="en" suppressHydrationWarning>
                 <body className={cn('antialiased', inter.className)}>
                     <RootProviders>{children}</RootProviders>
                 </body>
