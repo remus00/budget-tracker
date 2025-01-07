@@ -1,4 +1,5 @@
 'use client';
+import { createCategory } from '@/app/(dashboard)/_actions/categories';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -30,19 +31,64 @@ import { TransactionType } from '@/types/transactions';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CircleOff, PlusSquare } from 'lucide-react';
-import { useState } from 'react';
+import { Category } from '@prisma/client';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CircleOff, Loader2, PlusSquare } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
-export const CreateCategoryDialog = ({ type }: { type: TransactionType }) => {
+interface Props {
+    successCallback: (category: Category) => void;
+    type: TransactionType;
+}
+
+export const CreateCategoryDialog = ({ type, successCallback }: Props) => {
     const [open, setOpen] = useState<boolean>(false);
+
+    const queryClient = useQueryClient();
+    const theme = useTheme();
 
     const form = useForm<CreateCategorySchemaType>({
         resolver: zodResolver(CreateCategorySchema),
         defaultValues: {
+            name: '',
+            icon: '',
             type: type,
         },
     });
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: createCategory,
+        onSuccess: async (data: Category) => {
+            form.reset({ name: '', icon: '', type });
+            toast.success(`Category ${data.name} created successfully 🎉`, {
+                id: 'create-category',
+            });
+
+            successCallback(data);
+
+            await queryClient.invalidateQueries({
+                queryKey: ['categories'],
+            });
+
+            setOpen((prev) => !prev);
+        },
+        onError: () => {
+            toast.error('Something went wrong', {
+                id: 'create-category',
+            });
+        },
+    });
+
+    const onSubmit = useCallback(
+        (values: CreateCategorySchemaType) => {
+            toast.loading('Creating categories...', { id: 'create-category' });
+            mutate(values);
+        },
+        [mutate]
+    );
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -76,7 +122,7 @@ export const CreateCategoryDialog = ({ type }: { type: TransactionType }) => {
                 </DialogHeader>
 
                 <Form {...form}>
-                    <form className="space-y-8">
+                    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField
                             control={form.control}
                             name="name"
@@ -84,7 +130,7 @@ export const CreateCategoryDialog = ({ type }: { type: TransactionType }) => {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input defaultValue={''} {...field} />
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormDescription>Category name</FormDescription>
                                     <FormMessage />
@@ -133,6 +179,7 @@ export const CreateCategoryDialog = ({ type }: { type: TransactionType }) => {
                                                     onEmojiSelect={(emoji: {
                                                         native: string;
                                                     }) => field.onChange(emoji.native)}
+                                                    theme={theme.resolvedTheme}
                                                 />
                                             </PopoverContent>
                                         </Popover>
@@ -159,7 +206,12 @@ export const CreateCategoryDialog = ({ type }: { type: TransactionType }) => {
                     </DialogClose>
 
                     <DialogClose asChild>
-                        <Button type="submit">Save</Button>
+                        <Button
+                            disabled={isPending}
+                            onClick={form.handleSubmit(onSubmit)}
+                        >
+                            {!isPending ? 'Create' : <Loader2 className="animate-spin" />}
+                        </Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>
