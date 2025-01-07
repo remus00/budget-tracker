@@ -1,4 +1,4 @@
-import { CreateTransactionDialog } from '@/components/custom/create-transaction-dialog';
+import { CreateTransactionDialog } from '@/components/custom/transactions/create-transaction-dialog';
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
