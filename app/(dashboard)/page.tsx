@@ -1,4 +1,5 @@
 import { CreateTransactionDialog } from '@/components/custom/transactions/create-transaction-dialog';
+import { Overview } from '@/components/section/overview';
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
@@ -44,6 +45,7 @@ const HomePage = async () => {
                     </div>
                 </div>
             </div>
+            <Overview userSetting={userSetting} />
         </div>
     );
 };
