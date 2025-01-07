@@ -21,16 +21,34 @@ export function CurrencyCombobox() {
     const [open, setOpen] = React.useState(false);
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const [selectedOption, setSelectedOption] = React.useState<ICurrency | null>(null);
+    const [popoverWidth, setPopoverWidth] = React.useState<number | null>(null);
+    const popoverRef = React.useRef<HTMLButtonElement>(null);
+
+    React.useEffect(() => {
+        if (open && popoverRef.current) {
+            setPopoverWidth(popoverRef.current.offsetWidth);
+        }
+    }, [open]);
 
     if (isDesktop) {
         return (
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button
+                        ref={popoverRef}
+                        variant="outline"
+                        className="w-full justify-start"
+                    >
                         {selectedOption ? <>{selectedOption.label}</> : <>Set Currency</>}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0" align="start">
+                <PopoverContent
+                    className="p-0"
+                    style={{
+                        width: popoverWidth || 'auto',
+                    }}
+                    align="start"
+                >
                     <OptionList setOpen={setOpen} setSelectedOption={setSelectedOption} />
                 </PopoverContent>
             </Popover>
