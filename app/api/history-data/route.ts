@@ -81,7 +81,7 @@ const getMonthHistoryData = async (userId: string, year: number, month: number) 
 
     const daysInMonth = getDaysInMonth(new Date(year, month));
 
-    for (let i = 0; i < daysInMonth; i++) {
+    for (let i = 1; i < daysInMonth; i++) {
         let expense = 0;
         let income = 0;
 
@@ -92,7 +92,7 @@ const getMonthHistoryData = async (userId: string, year: number, month: number) 
             income = day._sum.income || 0;
         }
 
-        history.push({ year, month, day: i, expense, income });
+        history.push({ year, month, expense, income, day: i });
     }
 
     return history;

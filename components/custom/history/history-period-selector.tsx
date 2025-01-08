@@ -41,7 +41,10 @@ export const HistoryPeriodSelector = ({
             </SkeletonWrapper>
 
             <div className="flex flex-wrap items-center gap-4">
-                <SkeletonWrapper isLoading={historyPeriodsQuery.isFetching}>
+                <SkeletonWrapper
+                    isLoading={historyPeriodsQuery.isFetching}
+                    fullWidth={false}
+                >
                     <YearSelector
                         period={period}
                         setPeriod={setPeriod}
