@@ -8,7 +8,7 @@ import { DateRangePicker } from '../../ui/date-range-picker';
 import { CategoryStats } from './category-stats';
 import { StatsCards } from './stats-cards';
 
-export const Overview = ({ userSetting }: { userSetting: UserSettings }) => {
+export const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
     const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
         from: startOfMonth(new Date()),
         to: new Date(),
@@ -43,13 +43,13 @@ export const Overview = ({ userSetting }: { userSetting: UserSettings }) => {
 
             <div className="container mx-auto flex flex-col gap-4 px-8">
                 <StatsCards
-                    userSettings={userSetting}
+                    userSettings={userSettings}
                     from={dateRange.from}
                     to={dateRange.to}
                 />
 
                 <CategoryStats
-                    userSettings={userSetting}
+                    userSettings={userSettings}
                     from={dateRange.from}
                     to={dateRange.to}
                 />
