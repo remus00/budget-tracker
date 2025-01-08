@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { getFormatterForCurrency } from '@/lib/helpers';
 import { Period, TimeFrame } from '@/types/history';
 import { UserSettings } from '@prisma/client';
+import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { HistoryPeriodSelector } from './history-period-selector';
 
@@ -17,6 +18,16 @@ export const History = ({ userSettings }: { userSettings: UserSettings }) => {
     const formatter = useMemo(() => {
         return getFormatterForCurrency(userSettings.currency);
     }, [userSettings.currency]);
+
+    const historyDataQuery = useQuery({
+        queryKey: ['overview', 'history', timeFrame, period],
+        queryFn: () =>
+            fetch(
+                `/api/history-data?timeFrame=${timeFrame}&year=${period.year}&month=${period.month}`
+            ).then((res) => res.json()),
+    });
+
+    const dataAvailable = historyDataQuery.data && historyDataQuery.data.length > 0;
 
     return (
         <div className="container mx-auto px-8">
