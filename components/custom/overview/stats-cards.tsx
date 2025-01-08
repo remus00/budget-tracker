@@ -32,7 +32,7 @@ export const StatsCards = ({ userSettings, from, to }: Props) => {
     const balance = income - expense;
 
     return (
-        <div className="container relative mx-auto flex w-full flex-wrap gap-2 px-8 md:flex-nowrap">
+        <div className="relative flex w-full flex-wrap gap-4 md:flex-nowrap">
             <SkeletonWrapper isLoading={statsQuery.isFetching}>
                 <StatsCard
                     formatter={formatter}
