@@ -35,16 +35,17 @@ import { Category } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CircleOff, Loader2, PlusSquare } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 interface Props {
     successCallback: (category: Category) => void;
     type: TransactionType;
+    trigger?: ReactNode;
 }
 
-export const CreateCategoryDialog = ({ type, successCallback }: Props) => {
+export const CreateCategoryDialog = ({ type, successCallback, trigger }: Props) => {
     const [open, setOpen] = useState<boolean>(false);
 
     const queryClient = useQueryClient();
@@ -93,13 +94,17 @@ export const CreateCategoryDialog = ({ type, successCallback }: Props) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button
-                    variant="ghost"
-                    className="flex border-separate justify-start rounded-none border-b p-3 text-muted-foreground"
-                >
-                    <PlusSquare className="size-4" />
-                    Create new
-                </Button>
+                {trigger ? (
+                    trigger
+                ) : (
+                    <Button
+                        variant="ghost"
+                        className="flex border-separate justify-start rounded-none border-b p-3 text-muted-foreground"
+                    >
+                        <PlusSquare className="size-4" />
+                        Create new
+                    </Button>
+                )}
             </DialogTrigger>
 
             <DialogContent>
