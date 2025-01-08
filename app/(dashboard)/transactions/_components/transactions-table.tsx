@@ -1,9 +1,22 @@
 'use client';
 
+import { GetTransactionsHistoryResponseType } from '@/app/api/transactions-history/route';
+import { DataTableViewOptions } from '@/components/custom/data-table/column-toggle';
+import { DataTableFacetedFilter } from '@/components/custom/data-table/data-table-faceted-filter';
+import { DataTablePagination } from '@/components/custom/data-table/data-table-pagination';
+import { SkeletonWrapper } from '@/components/skeleton/skeleton-wrapper';
+import { Button } from '@/components/ui/button';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import { dateToUTCDate } from '@/lib/helpers';
 import { useQuery } from '@tanstack/react-query';
 import {
-    ColumnDef,
     ColumnFiltersState,
     flexRender,
     getCoreRowModel,
@@ -13,22 +26,10 @@ import {
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
-import { transactionsColumn } from './transactions-column';
-import { SkeletonWrapper } from '@/components/skeleton/skeleton-wrapper';
+import { download, generateCsv, mkConfig } from 'export-to-csv';
+import { Download } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { GetTransactionsHistoryResponseType } from '@/app/api/transactions-history/route';
-import { DataTableFacetedFilter } from '@/components/custom/data-table/data-table-faceted-filter';
-import { DataTableViewOptions } from '@/components/custom/data-table/column-toggle';
-import { DataTablePagination } from '@/components/custom/data-table/data-table-pagination';
-import { Button } from '@/components/ui/button';
+import { transactionsColumn } from './transactions-column';
 
 interface Props {
     from: Date;
@@ -36,6 +37,12 @@ interface Props {
 }
 
 const emptyData: any[] = [];
+
+const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true,
+});
 
 export const TransactionsTable = ({ from, to }: Props) => {
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -48,6 +55,11 @@ export const TransactionsTable = ({ from, to }: Props) => {
                 `/api/transactions-history?from=${dateToUTCDate(from)}&to=${dateToUTCDate(to)}`
             ).then((res) => res.json()),
     });
+
+    const handleExportCsv = (data: any[]) => {
+        const csv = generateCsv(csvConfig)(data);
+        download(csvConfig)(csv);
+    };
 
     const table = useReactTable({
         data: historyQuery.data || emptyData,
@@ -103,6 +115,25 @@ export const TransactionsTable = ({ from, to }: Props) => {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
+                    <Button
+                        variant="outline"
+                        className="ml-auto h-8 lg:flex"
+                        onClick={() => {
+                            const data = table.getFilteredRowModel().rows.map((row) => ({
+                                category: row.original.category,
+                                categoryIcon: row.original.categoryIcon,
+                                description: row.original.description,
+                                type: row.original.type,
+                                amount: row.original.amount,
+                                formattedAmount: row.original.formattedAmount,
+                                date: row.original.date,
+                            }));
+                            handleExportCsv(data);
+                        }}
+                    >
+                        <Download className="mr-2 !size-4" />
+                        Export csv
+                    </Button>
                     <DataTableViewOptions table={table} />
                 </div>
             </div>

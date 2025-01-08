@@ -1,7 +1,6 @@
 'use client';
 import { GetTransactionsHistoryResponseType } from '@/app/api/transactions-history/route';
 import { DataTableColumnHeader } from '@/components/custom/data-table/column-header';
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 
