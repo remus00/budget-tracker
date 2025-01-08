@@ -201,10 +201,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                                 <Calendar
                                                     mode="single"
                                                     selected={field.value}
-                                                    onSelect={(value) => {
-                                                        if (!value) return;
-                                                        field.onChange();
-                                                    }}
+                                                    onSelect={field.onChange}
                                                     initialFocus={true}
                                                 />
                                             </PopoverContent>
