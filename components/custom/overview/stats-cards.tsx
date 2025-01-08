@@ -1,3 +1,4 @@
+'use client';
 import { GetBalanceResponseType } from '@/app/api/stats/balance/route';
 import { SkeletonWrapper } from '@/components/skeleton/skeleton-wrapper';
 import { dateToUTCDate, getFormatterForCurrency } from '@/lib/helpers';
