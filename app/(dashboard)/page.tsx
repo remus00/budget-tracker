@@ -1,3 +1,4 @@
+import { History } from '@/components/custom/history/history';
 import { Overview } from '@/components/custom/overview/overview';
 import { CreateTransactionDialog } from '@/components/custom/transactions/create-transaction-dialog';
 import { Button } from '@/components/ui/button';
@@ -45,7 +46,8 @@ const HomePage = async () => {
                     </div>
                 </div>
             </div>
-            <Overview userSetting={userSetting} />
+            <Overview userSettings={userSetting} />
+            <History userSettings={userSetting} />
         </div>
     );
 };
