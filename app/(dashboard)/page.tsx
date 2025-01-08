@@ -1,4 +1,4 @@
-import { Overview } from '@/components/custom/overview';
+import { Overview } from '@/components/custom/overview/overview';
 import { CreateTransactionDialog } from '@/components/custom/transactions/create-transaction-dialog';
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/prisma';

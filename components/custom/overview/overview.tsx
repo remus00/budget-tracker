@@ -5,7 +5,8 @@ import { UserSettings } from '@prisma/client';
 import { differenceInDays, startOfMonth } from 'date-fns';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { DateRangePicker } from '../ui/date-range-picker';
+import { DateRangePicker } from '../../ui/date-range-picker';
+import { StatsCards } from './stats-cards';
 
 export const Overview = ({ userSetting }: { userSetting: UserSettings }) => {
     const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
@@ -39,6 +40,12 @@ export const Overview = ({ userSetting }: { userSetting: UserSettings }) => {
                     />
                 </div>
             </div>
+
+            <StatsCards
+                userSettings={userSetting}
+                from={dateRange.from}
+                to={dateRange.to}
+            />
         </>
     );
 };
