@@ -1,5 +1,5 @@
+import { Overview } from '@/components/custom/overview';
 import { CreateTransactionDialog } from '@/components/custom/transactions/create-transaction-dialog';
-import { Overview } from '@/components/section/overview';
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
