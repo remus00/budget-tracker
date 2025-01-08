@@ -11,6 +11,9 @@ export const transactionsColumn: ColumnDef<GetTransactionsHistoryResponseType[0]
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Category" />
         ),
+        filterFn: (row, id, value) => {
+            return value.includes(row.getValue(id));
+        },
         cell: ({ row }) => {
             return (
                 <div className="flex items-center gap-2 capitalize">
@@ -46,6 +49,9 @@ export const transactionsColumn: ColumnDef<GetTransactionsHistoryResponseType[0]
     {
         accessorKey: 'type',
         header: ({ column }) => <DataTableColumnHeader column={column} title="Type" />,
+        filterFn: (row, id, value) => {
+            return value.includes(row.getValue(id));
+        },
         cell: ({ row }) => {
             const type = row.original.type;
 
