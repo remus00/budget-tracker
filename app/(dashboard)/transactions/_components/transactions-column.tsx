@@ -1,6 +1,7 @@
 'use client';
 import { GetTransactionsHistoryResponseType } from '@/app/api/transactions-history/route';
 import { DataTableColumnHeader } from '@/components/custom/data-table/column-header';
+import { RowActions } from '@/components/custom/data-table/row-actions';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -77,6 +78,13 @@ export const transactionsColumn: ColumnDef<GetTransactionsHistoryResponseType[0]
                     {row.original.amount}
                 </p>
             );
+        },
+    },
+    {
+        id: 'actions',
+        enableHiding: false,
+        cell: ({ row }) => {
+            return <RowActions transaction={row.original} />;
         },
     },
 ];
