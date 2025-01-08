@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Category } from '@prisma/client';
 import { Trash } from 'lucide-react';
+import { DeleteCategoryDialog } from './delete-category-dialog';
 
 export const CategoryCard = ({ category }: { category: Category }) => {
     return (
@@ -12,13 +13,18 @@ export const CategoryCard = ({ category }: { category: Category }) => {
                 <p>{category.name}</p>
             </div>
 
-            <Button
-                variant="secondary"
-                className="flex w-full border-separate items-center gap-2 rounded-t-none border text-muted-foreground hover:bg-red-500/20"
-            >
-                <Trash className="!size-4" />
-                Remove
-            </Button>
+            <DeleteCategoryDialog
+                category={category}
+                trigger={
+                    <Button
+                        variant="secondary"
+                        className="flex w-full border-separate items-center gap-2 rounded-t-none border text-muted-foreground hover:bg-red-500/20"
+                    >
+                        <Trash className="!size-4" />
+                        Remove
+                    </Button>
+                }
+            />
         </div>
     );
 };
