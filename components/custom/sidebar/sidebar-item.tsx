@@ -22,36 +22,29 @@ export const SidebarItem = ({ icon, label, path, ...rest }: Props) => {
                 variant="sidebar-item"
                 size="default"
                 {...rest}
-                className={cn('relative', path === pathname && 'bg-neutral-100')}
-            >
-                {path === pathname && (
-                    <div className="bg-gold-500 absolute -left-5 top-1/2 h-5 w-1 -translate-y-1/2 cursor-default select-none rounded-br-[4px] rounded-tr-[4px] transition-all" />
+                className={cn(
+                    'relative w-full group-data-[collapsible=icon]:size-[40px]',
+                    path === pathname && 'bg-neutral-100'
                 )}
-
+            >
                 {icon && (
                     <Icon
                         icon={icon}
                         className={cn(
-                            'shrink-0 text-[20px] text-neutral-600',
-                            path === pathname && 'text-gold-500'
+                            'shrink-0 text-[20px] text-neutral-500',
+                            path === pathname && 'text-emerald-500'
                         )}
                     />
                 )}
                 <Heading
                     variant="label-sm"
                     className={cn(
-                        'w-full text-start capitalize text-neutral-600',
+                        'w-full text-start capitalize text-neutral-500 group-data-[collapsible=icon]:hidden',
                         path === pathname && 'text-neutral-950'
                     )}
                 >
                     {label}
                 </Heading>
-                {pathname === path && (
-                    <Icon
-                        icon="ri:arrow-right-s-line"
-                        className="shrink-0 text-[20px] text-neutral-600"
-                    />
-                )}
             </Button>
         </Link>
     );

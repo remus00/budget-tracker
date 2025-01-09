@@ -4,6 +4,7 @@ import {
     SidebarFooter,
     SidebarHeader,
     SidebarSeparator,
+    SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { UserButton } from '@clerk/nextjs';
 import { currentUser } from '@clerk/nextjs/server';
@@ -11,7 +12,6 @@ import { redirect } from 'next/navigation';
 import { Heading } from '../copy/heading';
 import { Paragraph } from '../copy/paragraph';
 import { Logo } from '../logo';
-import { ThemeSwitcherButton } from '../theme-switcher-button';
 import { SidebarContentContainer } from './sidebar-content-container';
 import { SidebarItem } from './sidebar-item';
 
@@ -21,13 +21,15 @@ export const AppSidebar = async () => {
     if (!user) redirect('/sign-in');
 
     return (
-        <Sidebar>
-            <SidebarHeader className="flex h-[88px] items-center justify-center bg-background p-6 shadow-none">
+        <Sidebar variant="floating" collapsible="icon">
+            <SidebarHeader>
                 <Logo />
             </SidebarHeader>
+
             <SidebarSeparator />
-            <SidebarContent className="gap-5 bg-background px-5 pb-4 pt-5">
-                <SidebarContentContainer label="main">
+
+            <SidebarContent>
+                <SidebarContentContainer label="main" trigger={<SidebarTrigger />}>
                     <SidebarItem
                         icon="lucide:layout-dashboard"
                         label="dashboard"
@@ -43,29 +45,33 @@ export const AppSidebar = async () => {
                     <SidebarItem icon="lucide:settings-2" label="manage" path="/manage" />
                 </SidebarContentContainer>
             </SidebarContent>
+
             <SidebarSeparator />
-            <SidebarFooter className="bg-background p-6">
-                <div className="grid grid-cols-5 items-center gap-3">
-                    <div className="col-span-1 size-10 rounded-full">
-                        <UserButton
-                            afterSignOutUrl="/sign-in"
-                            appearance={{
-                                elements: {
-                                    userButtonAvatarBox:
-                                        'size-10 border border-neutral-200',
-                                },
-                            }}
-                        />
-                    </div>
-                    <div className="col-span-3 flex w-full flex-col gap-1">
-                        <Heading variant="label-sm" className="text-neutral-950">
-                            {user.lastName} {user.firstName}
-                        </Heading>
-                        <Paragraph variant="xs" className="truncate text-neutral-600">
-                            {user.emailAddresses[0].emailAddress}
-                        </Paragraph>
-                    </div>
-                    <ThemeSwitcherButton className="col-span-1" />
+
+            <SidebarFooter className="flex flex-row items-center justify-center gap-2">
+                <UserButton
+                    afterSignOutUrl="/sign-in"
+                    appearance={{
+                        elements: {
+                            userButtonAvatarBox:
+                                'size-10 rounded-[12px] border border-neutral-200',
+                            userButtonTrigger: 'rounded-[12px]',
+                        },
+                    }}
+                />
+                <div className="flex w-full flex-col group-data-[collapsible=icon]:hidden">
+                    <Heading
+                        variant="label-sm"
+                        className="max-w-[160px] truncate text-neutral-950"
+                    >
+                        {user.lastName} {user.firstName}
+                    </Heading>
+                    <Paragraph
+                        variant="xs"
+                        className="w-full max-w-[160px] truncate text-neutral-600"
+                    >
+                        {user.emailAddresses[0].emailAddress}
+                    </Paragraph>
                 </div>
             </SidebarFooter>
         </Sidebar>
