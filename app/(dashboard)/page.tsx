@@ -5,6 +5,7 @@ import { CreateTransactionDialog } from '@/components/custom/transactions/create
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { redirect } from 'next/navigation';
 
 const HomePage = async () => {
@@ -29,13 +30,29 @@ const HomePage = async () => {
                 secondaryButton={
                     <CreateTransactionDialog
                         type="income"
-                        trigger={<Button>New income 🤑</Button>}
+                        trigger={
+                            <Button variant="success">
+                                New income{' '}
+                                <Icon
+                                    icon="lucide:arrow-up-from-line"
+                                    className="text-[16px]"
+                                />
+                            </Button>
+                        }
                     />
                 }
                 button={
                     <CreateTransactionDialog
                         type="expense"
-                        trigger={<Button variant="outline">New expense 🫡</Button>}
+                        trigger={
+                            <Button variant="destructive">
+                                New expense{' '}
+                                <Icon
+                                    icon="lucide:arrow-down-from-line"
+                                    className="text-[16px]"
+                                />
+                            </Button>
+                        }
                     />
                 }
             />

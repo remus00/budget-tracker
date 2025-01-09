@@ -93,6 +93,7 @@ export default {
                 md: '0px 16px 32px -12px rgba(88, 92, 95, 0.10)',
                 sm: '0px 2px 4px 0px rgba(27, 28, 29, 0.04)',
                 xs: '0px 1px 2px 0px rgba(228, 229, 231, 0.24)',
+                navbar: ' 0px -50px 0px 0px rgba(246, 248, 250,1), 0px 2px 4px 0px rgba(27, 28, 29, 0.04)',
             },
         },
     },

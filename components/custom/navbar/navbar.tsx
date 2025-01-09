@@ -1,4 +1,3 @@
-import { Separator } from '@/components/ui/separator';
 import { Icon } from '@iconify/react';
 import { ReactNode } from 'react';
 import { Heading } from '../copy/heading';
@@ -14,18 +13,18 @@ interface Props {
 
 export const Navbar = ({ icon, label, description, button, secondaryButton }: Props) => {
     return (
-        <header className="sticky top-0 z-50 flex h-[88px] w-full flex-col bg-background">
-            <div className="flex items-center gap-3 px-8 py-5">
-                <div className="shadow-xs grid size-12 shrink-0 place-content-center rounded-full border border-neutral-200">
+        <header className="shadow-navbar sticky top-4 z-50 flex h-[72px] w-full rounded-[16px] border border-neutral-200 bg-card">
+            <div className="flex w-full items-center gap-3 p-4">
+                <div className="shadow-xs grid size-10 shrink-0 place-content-center rounded-[12px] border border-emerald-400/50 bg-emerald-400/10">
                     {icon && (
                         <Icon
                             icon={icon}
-                            className="shrink-0 text-[24px] text-neutral-950"
+                            className="shrink-0 text-[24px] text-emerald-500"
                         />
                     )}
                 </div>
 
-                <div className="flex w-full flex-col gap-1">
+                <div className="flex w-full flex-col">
                     <Heading variant="label-lg" className="text-neutral-950">
                         {label}
                     </Heading>
@@ -42,7 +41,6 @@ export const Navbar = ({ icon, label, description, button, secondaryButton }: Pr
                 {/* the filled button */}
                 {button && button}
             </div>
-            <Separator />
         </header>
     );
 };

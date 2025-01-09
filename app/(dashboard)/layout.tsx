@@ -7,8 +7,8 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         <>
             <SidebarProvider>
                 <AppSidebar />
-                <main className="flex h-screen w-full flex-1 flex-col bg-background">
-                    {/* {children} */}
+                <main className="flex h-screen w-full flex-1 flex-col bg-background p-4">
+                    {children}
                 </main>
             </SidebarProvider>
         </>
