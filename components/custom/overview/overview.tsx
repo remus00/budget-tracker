@@ -5,6 +5,7 @@ import { differenceInDays, startOfMonth } from 'date-fns';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DateRangePicker } from '../../ui/date-range-picker';
+import { Heading } from '../copy/heading';
 import { CategoryStats } from './category-stats';
 import { StatsCards } from './stats-cards';
 
@@ -16,32 +17,32 @@ export const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
 
     return (
         <>
-            <div className="container mx-auto flex flex-wrap justify-between gap-2 px-8 py-6">
-                <h2 className="text-3xl font-bold">Overview</h2>
-                <div className="flex items-center gap-3">
-                    <DateRangePicker
-                        initialDateFrom={dateRange.from}
-                        initialDateTo={dateRange.to}
-                        showCompare={false}
-                        onUpdate={(values) => {
-                            const { from, to } = values.range;
+            <div className="mt-4 flex w-full justify-between rounded-[16px] border border-neutral-200 bg-card p-4 shadow-md">
+                <Heading variant="h4" className="font-bold">
+                    Overview
+                </Heading>
+                <DateRangePicker
+                    initialDateFrom={dateRange.from}
+                    initialDateTo={dateRange.to}
+                    showCompare={false}
+                    onUpdate={(values) => {
+                        const { from, to } = values.range;
 
-                            if (!from || !to) return;
+                        if (!from || !to) return;
 
-                            if (differenceInDays(to, from) > MAX_DATE_RANGE_DAYS) {
-                                toast.error(
-                                    `The selected range is too big. Max allowed range is ${MAX_DATE_RANGE_DAYS} days.`
-                                );
-                                return;
-                            }
+                        if (differenceInDays(to, from) > MAX_DATE_RANGE_DAYS) {
+                            toast.error(
+                                `The selected range is too big. Max allowed range is ${MAX_DATE_RANGE_DAYS} days.`
+                            );
+                            return;
+                        }
 
-                            setDateRange({ from, to });
-                        }}
-                    />
-                </div>
+                        setDateRange({ from, to });
+                    }}
+                />
             </div>
 
-            <div className="container mx-auto flex flex-col gap-4 px-8">
+            <div className="mt-4">
                 <StatsCards
                     userSettings={userSettings}
                     from={dateRange.from}

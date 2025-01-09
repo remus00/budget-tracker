@@ -7,7 +7,6 @@ import { Period, TimeFrame } from '@/types/history';
 import { UserSettings } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { HistoryPeriodSelector } from './history-period-selector';
 import {
     Bar,
     BarChart,
@@ -17,6 +16,8 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
+import { Heading } from '../copy/heading';
+import { HistoryPeriodSelector } from './history-period-selector';
 import { CustomTooltip } from './tooltip/custom-tooltip';
 
 export const History = ({ userSettings }: { userSettings: UserSettings }) => {
@@ -41,8 +42,13 @@ export const History = ({ userSettings }: { userSettings: UserSettings }) => {
     const dataAvailable = historyDataQuery.data && historyDataQuery.data.length > 0;
 
     return (
-        <div className="container mx-auto px-8">
-            <h2 className="mt-12 text-3xl font-bold">History</h2>
+        <div className="mt-4">
+            <Heading
+                variant="h4"
+                className="rounded-[16px] border border-neutral-200 bg-card p-4 font-bold"
+            >
+                History
+            </Heading>
             <Card className="col-span-12 mt-4 w-full">
                 <CardHeader className="gap-4">
                     <CardTitle className="grid grid-flow-row justify-between gap-4 md:grid-flow-col">

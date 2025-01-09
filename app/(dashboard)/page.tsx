@@ -56,10 +56,8 @@ const HomePage = async () => {
                     />
                 }
             />
-            <div className="h-full bg-background">
-                <Overview userSettings={userSetting} />
-                <History userSettings={userSetting} />
-            </div>
+            <Overview userSettings={userSetting} />
+            <History userSettings={userSetting} />
         </>
     );
 };

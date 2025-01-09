@@ -330,7 +330,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
             }}
         >
             <PopoverTrigger asChild>
-                <Button variant="outline">
+                <Button variant="neutral-outlined">
                     <div className="text-right">
                         <div className="py-1">
                             <div>{`${formatDate(range.from, locale)}${
@@ -350,16 +350,16 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                             </div>
                         )}
                     </div>
-                    <div className="-mr-2 scale-125 pl-1 opacity-60">
+                    <div className="-mr-2 scale-125 pl-1 pr-2 opacity-60">
                         {isOpen ? (
-                            <ChevronUpIcon width={24} />
+                            <ChevronUpIcon width={18} />
                         ) : (
-                            <ChevronDownIcon width={24} />
+                            <ChevronDownIcon width={18} />
                         )}
                     </div>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent align={align} className="w-auto">
+            <PopoverContent align={align} className="w-auto rounded-[16px] p-4">
                 <div className="flex py-2">
                     <div className="flex">
                         <div className="flex flex-col">
@@ -557,6 +557,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                         Cancel
                     </Button>
                     <Button
+                        variant="success"
                         onClick={() => {
                             setIsOpen(false);
                             if (
