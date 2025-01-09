@@ -1,4 +1,5 @@
 import { History } from '@/components/custom/history/history';
+import { Navbar } from '@/components/custom/navbar/navbar';
 import { Overview } from '@/components/custom/overview/overview';
 import { CreateTransactionDialog } from '@/components/custom/transactions/create-transaction-dialog';
 import { Button } from '@/components/ui/button';
@@ -20,35 +21,29 @@ const HomePage = async () => {
     if (!userSetting) redirect('/wizard');
 
     return (
-        <div className="h-full bg-background">
-            <div className="border-b bg-card">
-                <div className="container mx-auto flex flex-wrap items-center justify-between gap-6 px-8 py-8">
-                    <p className="text-3xl font-bold">Hello, {user.firstName}! 👋🏻</p>
-
-                    <div className="flex items-center gap-3">
-                        <CreateTransactionDialog
-                            type="income"
-                            trigger={
-                                <Button variant="outline" className="green-btn">
-                                    New income 🤑
-                                </Button>
-                            }
-                        />
-
-                        <CreateTransactionDialog
-                            type="expense"
-                            trigger={
-                                <Button variant="outline" className="rose-btn">
-                                    New expense 🫡
-                                </Button>
-                            }
-                        />
-                    </div>
-                </div>
+        <>
+            <Navbar
+                label="Dashboard"
+                description={`Hello, ${user.firstName}! 👋🏻`}
+                icon="lucide:layout-dashboard"
+                secondaryButton={
+                    <CreateTransactionDialog
+                        type="income"
+                        trigger={<Button>New income 🤑</Button>}
+                    />
+                }
+                button={
+                    <CreateTransactionDialog
+                        type="expense"
+                        trigger={<Button variant="outline">New expense 🫡</Button>}
+                    />
+                }
+            />
+            <div className="h-full bg-background">
+                <Overview userSettings={userSetting} />
+                <History userSettings={userSetting} />
             </div>
-            <Overview userSettings={userSetting} />
-            <History userSettings={userSetting} />
-        </div>
+        </>
     );
 };
 

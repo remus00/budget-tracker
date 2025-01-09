@@ -22,11 +22,11 @@ export const AppSidebar = async () => {
 
     return (
         <Sidebar>
-            <SidebarHeader className="flex items-center justify-center bg-white px-5 pb-6 pt-3 shadow-none">
+            <SidebarHeader className="flex h-[88px] items-center justify-center bg-background p-6 shadow-none">
                 <Logo />
             </SidebarHeader>
             <SidebarSeparator />
-            <SidebarContent className="gap-5 bg-white px-5 pb-4 pt-5">
+            <SidebarContent className="gap-5 bg-background px-5 pb-4 pt-5">
                 <SidebarContentContainer label="main">
                     <SidebarItem
                         icon="lucide:layout-dashboard"
@@ -44,7 +44,7 @@ export const AppSidebar = async () => {
                 </SidebarContentContainer>
             </SidebarContent>
             <SidebarSeparator />
-            <SidebarFooter className="bg-white p-6">
+            <SidebarFooter className="bg-background p-6">
                 <div className="grid grid-cols-5 items-center gap-3">
                     <div className="col-span-1 size-10 rounded-full">
                         <UserButton
