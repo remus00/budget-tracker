@@ -13,14 +13,14 @@ import {
 
 export const ManagePageWrapper = () => {
     return (
-        <>
+        <div className="mb-4">
             <Navbar
                 label="Manage"
                 description="Manage your account and categories"
                 icon="lucide:settings-2"
             />
 
-            <div className="container mx-auto flex flex-col gap-4 px-8 py-4">
+            <div className="mb-4 mt-4 flex flex-col gap-4">
                 <Card className="w-full shrink-0 md:max-w-[350px]">
                     <CardHeader>
                         <CardTitle>Currency</CardTitle>
@@ -36,6 +36,6 @@ export const ManagePageWrapper = () => {
                 <CategoryList type="income" />
                 <CategoryList type="expense" />
             </div>
-        </>
+        </div>
     );
 };

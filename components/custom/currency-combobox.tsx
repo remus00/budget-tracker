@@ -93,7 +93,7 @@ export function CurrencyCombobox() {
                             ref={popoverRef}
                             disabled={updateCurrency.isPending}
                             variant="outline"
-                            className="w-full justify-start"
+                            className="w-full justify-start bg-card"
                         >
                             {selectedOption ? (
                                 <>{selectedOption.label}</>
@@ -103,7 +103,7 @@ export function CurrencyCombobox() {
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent
-                        className="p-0"
+                        className="rounded-[12px] p-0"
                         style={{
                             width: popoverWidth || 'auto',
                         }}
@@ -152,7 +152,7 @@ function OptionList({
     setSelectedOption: (status: ICurrency | null) => void;
 }) {
     return (
-        <Command>
+        <Command className="rounded-[12px]">
             <CommandInput placeholder="Filter currency..." />
             <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
@@ -169,7 +169,7 @@ function OptionList({
                                 );
                                 setOpen(false);
                             }}
-                            className="cursor-pointer"
+                            className="cursor-pointer rounded-[8px]"
                         >
                             {currency.label}
                         </CommandItem>

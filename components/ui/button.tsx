@@ -10,7 +10,7 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                    'bg-gold-500 text-primary-foreground shadow hover:bg-gold-500/80',
+                    'bg-emerald-500 text-primary-foreground shadow hover:bg-emerald-500/80',
                 'sidebar-item':
                     'group flex h-[44px] w-full items-center justify-start rounded-[8px] disabled:bg-neutral-100/70 p-[12px] no-underline hover:bg-neutral-100 hover:no-underline ',
                 neutral:

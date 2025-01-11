@@ -10,7 +10,13 @@ import { PlusSquare, TrendingDown, TrendingUp } from 'lucide-react';
 import { CreateCategoryDialog } from '../transactions/create-category-dialog';
 import { CategoryCard } from './category-card';
 
-export const CategoryList = ({ type }: { type: TransactionType }) => {
+export const CategoryList = ({
+    type,
+    className,
+}: {
+    type: TransactionType;
+    className?: string;
+}) => {
     const categoriesQuery = useQuery({
         queryKey: ['categories', type],
         queryFn: () => fetch(`/api/categories?type=${type}`).then((res) => res.json()),
