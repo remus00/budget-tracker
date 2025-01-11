@@ -18,7 +18,12 @@ export const SkeletonWrapper = ({
     if (!isLoading) return children;
 
     return (
-        <Skeleton className={cn(fullWidth && 'w-full rounded-[12px]', className)}>
+        <Skeleton
+            className={cn(
+                fullWidth && 'w-full rounded-[12px] bg-neutral-200/80',
+                className
+            )}
+        >
             <div className="opacity-0">{children}</div>
         </Skeleton>
     );
