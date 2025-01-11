@@ -43,9 +43,7 @@ export const TransactionsPageWrapper = () => {
                 }
             />
 
-            <div className="container mx-auto p-9">
-                <TransactionsTable from={dateRange.from} to={dateRange.to} />
-            </div>
+            <TransactionsTable from={dateRange.from} to={dateRange.to} />
         </>
     );
 };

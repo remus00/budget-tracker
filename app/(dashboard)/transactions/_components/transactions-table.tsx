@@ -92,8 +92,8 @@ export const TransactionsTable = ({ from, to }: Props) => {
     }, [historyQuery.data]);
 
     return (
-        <div className="w-full">
-            <div className="flex flex-wrap items-end justify-between gap-2 py-4">
+        <div className="mt-4 flex flex-col gap-4 rounded-[16px] border border-neutral-200 bg-card p-4">
+            <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     {table.getColumn('category') && (
                         <DataTableFacetedFilter
@@ -114,10 +114,9 @@ export const TransactionsTable = ({ from, to }: Props) => {
                     )}
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
-                        className="ml-auto h-8 lg:flex"
                         onClick={() => {
                             const data = table.getFilteredRowModel().rows.map((row) => ({
                                 category: row.original.category,
@@ -130,6 +129,7 @@ export const TransactionsTable = ({ from, to }: Props) => {
                             }));
                             handleExportCsv(data);
                         }}
+                        className="h-8 bg-card"
                     >
                         <Download className="mr-2 !size-4" />
                         Export csv
@@ -137,8 +137,9 @@ export const TransactionsTable = ({ from, to }: Props) => {
                     <DataTableViewOptions table={table} />
                 </div>
             </div>
+
             <SkeletonWrapper isLoading={historyQuery.isFetching}>
-                <div className="mb-4 rounded-md border">
+                <div className="overflow-hidden rounded-[12px] border">
                     <Table>
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
