@@ -33,7 +33,8 @@ export const CategoryStats = ({ userSettings, from, to }: Props) => {
                     data={statsQuery.data || []}
                     type="income"
                 />
-
+            </SkeletonWrapper>
+            <SkeletonWrapper isLoading={statsQuery.isFetching}>
                 <CategoriesCard
                     formatter={formatter}
                     data={statsQuery.data || []}

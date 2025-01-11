@@ -19,7 +19,7 @@ export const StatsCard = ({ formatter, value, title, icon }: Props) => {
     );
 
     return (
-        <Card className="flex w-full min-w-[220px] items-center gap-2 p-4">
+        <Card className="flex w-full min-w-[220px] items-center gap-2 rounded-[12px] p-4">
             {icon}
             <div className="flex flex-col items-start gap-0">
                 <Paragraph variant="md" className="text-muted-foreground">

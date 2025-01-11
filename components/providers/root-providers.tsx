@@ -11,7 +11,7 @@ export const RootProviders = ({ children }: PropsWithChildren) => {
         <QueryClientProvider client={queryClient}>
             <ThemeProvider
                 attribute="class"
-                defaultTheme="dark"
+                defaultTheme="light"
                 enableSystem
                 disableTransitionOnChange
             >

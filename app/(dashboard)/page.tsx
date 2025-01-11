@@ -22,7 +22,7 @@ const HomePage = async () => {
     if (!userSetting) redirect('/wizard');
 
     return (
-        <>
+        <div className="mb-4">
             <Navbar
                 label="Dashboard"
                 description={`Hello, ${user.firstName}! 👋🏻`}
@@ -58,7 +58,7 @@ const HomePage = async () => {
             />
             <Overview userSettings={userSetting} />
             <History userSettings={userSetting} />
-        </>
+        </div>
     );
 };
 

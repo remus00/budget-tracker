@@ -42,14 +42,11 @@ export const History = ({ userSettings }: { userSettings: UserSettings }) => {
     const dataAvailable = historyDataQuery.data && historyDataQuery.data.length > 0;
 
     return (
-        <div className="mt-4">
-            <Heading
-                variant="h4"
-                className="rounded-[16px] border border-neutral-200 bg-card p-4 font-bold"
-            >
+        <div className="my-4 rounded-[16px] border border-neutral-200 bg-card p-4">
+            <Heading variant="h4" className="font-bold">
                 History
             </Heading>
-            <Card className="col-span-12 mt-4 w-full">
+            <Card className="col-span-12 mt-4 w-full rounded-[12px]">
                 <CardHeader className="gap-4">
                     <CardTitle className="grid grid-flow-row justify-between gap-4 md:grid-flow-col">
                         <HistoryPeriodSelector

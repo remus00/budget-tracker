@@ -21,7 +21,7 @@ export const CategoriesCard = ({ formatter, data, type }: Props) => {
     );
 
     return (
-        <Card className="h-80 w-full">
+        <Card className="h-80 w-full rounded-[12px]">
             <CardHeader>
                 <CardTitle className="grid grid-flow-row justify-between gap-4 text-muted-foreground md:grid-flow-col">
                     <span>
