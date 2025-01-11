@@ -177,7 +177,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Transaction date</FormLabel>
-                                        <Popover>
+                                        <Popover modal={true}>
                                             <PopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button
