@@ -1,4 +1,3 @@
-import React from 'react';
 import { TooltipRow } from './tooltip-row';
 
 export const CustomTooltip = ({ active, payload, formatter }: any) => {
@@ -7,7 +6,7 @@ export const CustomTooltip = ({ active, payload, formatter }: any) => {
     const { expense, income } = payload[0].payload;
 
     return (
-        <div className="min-w-[300px] rounded border bg-background p-4">
+        <div className="min-w-[300px] rounded-[12px] border bg-background p-4">
             <TooltipRow
                 formatter={formatter}
                 label="Expense"

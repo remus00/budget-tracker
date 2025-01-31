@@ -50,13 +50,13 @@ export const CategoryPicker = ({ type, onChange }: Props) => {
     );
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen} modal={true}>
             <PopoverTrigger asChild>
                 <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="flex w-[200px] justify-between"
+                    className="flex w-full justify-between sm:w-[200px]"
                 >
                     {selectedCategory ? (
                         <CategoryRow category={selectedCategory} />

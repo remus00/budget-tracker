@@ -21,7 +21,7 @@ export const MonthSelector = ({ period, setPeriod }: Props) => {
                 setPeriod({ year: period.year, month: parseInt(val) })
             }
         >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] border border-neutral-200 bg-white text-neutral-500 shadow-[0px_1px_2px_0px_rgba(82,88,102,0.06)] hover:border-transparent hover:bg-neutral-100 hover:text-neutral-900 focus:border-neutral-900 focus:text-neutral-900 focus:ring-0 disabled:border-transparent">
                 <SelectValue />
             </SelectTrigger>
             <SelectContent>

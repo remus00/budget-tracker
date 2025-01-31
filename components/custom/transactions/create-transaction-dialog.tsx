@@ -140,7 +140,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                 <FormItem>
                                     <FormLabel>Amount</FormLabel>
                                     <FormControl>
-                                        <Input type="tel" {...field} />
+                                        <Input type="number" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Transaction amount (required)
@@ -150,7 +150,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                             )}
                         />
 
-                        <div className="grid grid-cols-2 items-start justify-center gap-4">
+                        <div className="grid grid-cols-1 items-start justify-center gap-4 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="category"
@@ -175,15 +175,15 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                 control={form.control}
                                 name="date"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="flex flex-col">
                                         <FormLabel>Transaction date</FormLabel>
-                                        <Popover>
+                                        <Popover modal={true}>
                                             <PopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button
                                                         variant="outline"
                                                         className={cn(
-                                                            'w-[200px] pl-3 text-left font-normal',
+                                                            'w-full pl-3 text-left font-normal sm:w-[200px]',
                                                             !field.value &&
                                                                 'text-muted-foreground'
                                                         )}
@@ -217,7 +217,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                     </form>
                 </Form>
 
-                <DialogFooter>
+                <DialogFooter className="gap-4">
                     <DialogClose asChild>
                         <Button
                             type="button"

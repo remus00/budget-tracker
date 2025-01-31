@@ -2,6 +2,7 @@
 
 import { CurrencyCombobox } from '@/components/custom/currency-combobox';
 import { CategoryList } from '@/components/custom/manage/category-list';
+import { Navbar } from '@/components/custom/navbar/navbar';
 import {
     Card,
     CardContent,
@@ -12,19 +13,14 @@ import {
 
 export const ManagePageWrapper = () => {
     return (
-        <>
-            <div className="border-b bg-card">
-                <div className="container mx-auto flex flex-wrap items-center justify-between gap-6 px-8 py-8">
-                    <div className="">
-                        <p className="text-3xl font-bold">Manage</p>
-                        <p className="text-muted-foreground">
-                            Manage your account and categories
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div className="mb-4">
+            <Navbar
+                label="Manage"
+                description="Manage your account and categories"
+                icon="lucide:settings-2"
+            />
 
-            <div className="container mx-auto flex flex-col gap-4 px-8 py-4">
+            <div className="mb-4 mt-4 flex flex-col gap-4">
                 <Card className="w-full shrink-0 md:max-w-[350px]">
                     <CardHeader>
                         <CardTitle>Currency</CardTitle>
@@ -40,6 +36,6 @@ export const ManagePageWrapper = () => {
                 <CategoryList type="income" />
                 <CategoryList type="expense" />
             </div>
-        </>
+        </div>
     );
 };

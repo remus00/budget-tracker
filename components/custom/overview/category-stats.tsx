@@ -26,14 +26,15 @@ export const CategoryStats = ({ userSettings, from, to }: Props) => {
     }, [userSettings.currency]);
 
     return (
-        <div className="flex w-auto flex-wrap gap-4 md:flex-nowrap">
+        <div className="mt-4 grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
             <SkeletonWrapper isLoading={statsQuery.isFetching}>
                 <CategoriesCard
                     formatter={formatter}
                     data={statsQuery.data || []}
                     type="income"
                 />
-
+            </SkeletonWrapper>
+            <SkeletonWrapper isLoading={statsQuery.isFetching}>
                 <CategoriesCard
                     formatter={formatter}
                     data={statsQuery.data || []}

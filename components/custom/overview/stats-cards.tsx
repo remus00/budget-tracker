@@ -33,14 +33,14 @@ export const StatsCards = ({ userSettings, from, to }: Props) => {
     const balance = income - expense;
 
     return (
-        <div className="relative flex w-full flex-wrap gap-4 md:flex-nowrap">
+        <div className="relative grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <SkeletonWrapper isLoading={statsQuery.isFetching}>
                 <StatsCard
                     formatter={formatter}
                     value={income}
                     title="Income"
                     icon={
-                        <TrendingUp className="!size-12 items-center rounded-lg bg-emerald-400/10 p-2 text-emerald-500" />
+                        <TrendingUp className="!size-12 items-center rounded-[8px] bg-emerald-400/10 p-2 text-emerald-500" />
                     }
                 />
             </SkeletonWrapper>
@@ -51,7 +51,7 @@ export const StatsCards = ({ userSettings, from, to }: Props) => {
                     value={expense}
                     title="Expense"
                     icon={
-                        <TrendingDown className="!size-12 items-center rounded-lg bg-rose-400/10 p-2 text-rose-500" />
+                        <TrendingDown className="!size-12 items-center rounded-[8px] bg-rose-400/10 p-2 text-rose-500" />
                     }
                 />
             </SkeletonWrapper>
@@ -62,7 +62,7 @@ export const StatsCards = ({ userSettings, from, to }: Props) => {
                     value={balance}
                     title="Balance"
                     icon={
-                        <Wallet className="!size-12 items-center rounded-lg bg-violet-400/10 p-2 text-violet-500" />
+                        <Wallet className="!size-12 items-center rounded-[8px] bg-violet-400/10 p-2 text-violet-500" />
                     }
                 />
             </SkeletonWrapper>

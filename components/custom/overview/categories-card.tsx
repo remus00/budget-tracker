@@ -2,6 +2,7 @@ import { GetCategoriesResponseType } from '@/app/api/stats/categories/route';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { TransactionType } from '@/types/transactions';
 
@@ -20,7 +21,7 @@ export const CategoriesCard = ({ formatter, data, type }: Props) => {
     );
 
     return (
-        <Card className="col-span-6 h-80 w-full">
+        <Card className="h-80 w-full rounded-[12px]">
             <CardHeader>
                 <CardTitle className="grid grid-flow-row justify-between gap-4 text-muted-foreground md:grid-flow-col">
                     <span>
@@ -37,9 +38,11 @@ export const CategoriesCard = ({ formatter, data, type }: Props) => {
                 </CardTitle>
             </CardHeader>
 
-            <div className="flex items-center justify-between gap-2">
+            <Separator />
+
+            <div className="flex items-center justify-between gap-2 p-4">
                 {filteredData.length === 0 && (
-                    <div className="flex h-60 w-full flex-col items-center justify-center">
+                    <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden">
                         No data for the selected period
                         <p className="text-sm text-muted-foreground">
                             Try selecting a different period or try adding a new {type}
@@ -48,8 +51,8 @@ export const CategoriesCard = ({ formatter, data, type }: Props) => {
                 )}
 
                 {filteredData.length > 0 && (
-                    <ScrollArea className="h-60 w-full px-4">
-                        <div className="flex w-full flex-col gap-4 p-4">
+                    <ScrollArea className="h-60 w-full">
+                        <div className="flex w-full flex-col gap-4 pb-4">
                             {filteredData.map((item, idx) => {
                                 const amount = item._sum.amount || 0;
                                 const percentage =
