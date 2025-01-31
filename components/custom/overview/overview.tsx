@@ -17,7 +17,7 @@ export const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
 
     return (
         <div className="mt-4 rounded-[16px] border border-neutral-200 bg-card p-4">
-            <div className="flex w-full justify-between">
+            <div className="flex w-full flex-col justify-between gap-4 sm:flex-row">
                 <Heading variant="h4" className="font-bold">
                     Overview
                 </Heading>

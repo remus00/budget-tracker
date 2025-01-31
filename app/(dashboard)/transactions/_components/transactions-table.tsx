@@ -93,8 +93,8 @@ export const TransactionsTable = ({ from, to }: Props) => {
 
     return (
         <div className="mt-4 flex flex-col gap-4 rounded-[16px] border border-neutral-200 bg-card p-4">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                <div className="flex w-full items-center gap-2 md:w-fit">
                     {table.getColumn('category') && (
                         <DataTableFacetedFilter
                             title="Category"
@@ -114,7 +114,7 @@ export const TransactionsTable = ({ from, to }: Props) => {
                     )}
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex w-full items-center gap-2 md:w-fit">
                     <Button
                         variant="outline"
                         onClick={() => {
@@ -129,7 +129,7 @@ export const TransactionsTable = ({ from, to }: Props) => {
                             }));
                             handleExportCsv(data);
                         }}
-                        className="h-8 bg-card"
+                        className="h-8 w-full bg-card sm:w-fit"
                     >
                         <Download className="mr-2 !size-4" />
                         Export csv

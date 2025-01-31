@@ -31,7 +31,7 @@ const HomePage = async () => {
                     <CreateTransactionDialog
                         type="income"
                         trigger={
-                            <Button variant="success">
+                            <Button variant="success" className="w-full sm:w-fit">
                                 New income{' '}
                                 <Icon
                                     icon="lucide:arrow-up-from-line"
@@ -45,7 +45,7 @@ const HomePage = async () => {
                     <CreateTransactionDialog
                         type="expense"
                         trigger={
-                            <Button variant="destructive">
+                            <Button variant="destructive" className="w-full sm:w-fit">
                                 New expense{' '}
                                 <Icon
                                     icon="lucide:arrow-down-from-line"

@@ -22,7 +22,7 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
                 <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 rounded-[12px] bg-card"
+                    className="h-8 w-full rounded-[12px] bg-card sm:w-fit"
                 >
                     <Settings2 />
                     View

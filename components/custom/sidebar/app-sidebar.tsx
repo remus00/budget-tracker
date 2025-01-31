@@ -29,7 +29,10 @@ export const AppSidebar = async () => {
             <SidebarSeparator />
 
             <SidebarContent>
-                <SidebarContentContainer label="main" trigger={<SidebarTrigger />}>
+                <SidebarContentContainer
+                    label="main"
+                    trigger={<SidebarTrigger className="hidden md:flex" />}
+                >
                     <SidebarItem
                         icon="lucide:layout-dashboard"
                         label="dashboard"

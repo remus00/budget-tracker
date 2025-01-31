@@ -7,7 +7,7 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
     Tooltip,
@@ -194,6 +194,7 @@ const Sidebar = React.forwardRef<
         if (isMobile) {
             return (
                 <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+                    <SheetTitle className="hidden"></SheetTitle>
                     <SheetContent
                         data-sidebar="sidebar"
                         data-mobile="true"
@@ -203,7 +204,7 @@ const Sidebar = React.forwardRef<
                                 '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
                             } as React.CSSProperties
                         }
-                        side={side}
+                        side={isMobile ? 'right' : side}
                     >
                         <div className="flex h-full w-full flex-col">{children}</div>
                     </SheetContent>
@@ -271,7 +272,7 @@ const SidebarTrigger = React.forwardRef<
             variant="outline"
             size="icon"
             className={cn(
-                'flex h-6 w-fit items-center gap-1 px-1 text-neutral-400',
+                'flex h-10 w-10 items-center gap-1 px-1 text-neutral-400 md:h-6 md:w-fit',
                 className
             )}
             onClick={(event) => {
@@ -286,9 +287,15 @@ const SidebarTrigger = React.forwardRef<
                         ? 'lucide:arrow-right-from-line'
                         : 'lucide:arrow-left-from-line'
                 }
-                className="shrink-0 text-[16px]"
+                className="hidden shrink-0 text-[16px] md:block"
             />
-            <Heading variant="sub-xs">⌘B</Heading>
+            <Icon
+                icon="lucide:arrow-left-from-line"
+                className="block shrink-0 text-[16px] md:hidden"
+            />
+            <Heading variant="sub-xs" className="hidden md:block">
+                ⌘B
+            </Heading>
             <span className="sr-only">Toggle Sidebar</span>
         </Button>
     );

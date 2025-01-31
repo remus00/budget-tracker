@@ -1,3 +1,4 @@
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Icon } from '@iconify/react';
 import { ReactNode } from 'react';
 import { Heading } from '../copy/heading';
@@ -24,15 +25,19 @@ export const Navbar = ({ icon, label, description, button, secondaryButton }: Pr
                     )}
                 </div>
 
-                <div className="flex w-full flex-col">
-                    <Heading variant="label-lg" className="text-neutral-950">
-                        {label}
-                    </Heading>
-                    {description && (
-                        <Paragraph variant="sm" className="text-neutral-600">
-                            {description}
-                        </Paragraph>
-                    )}
+                <div className="flex w-full items-center justify-between">
+                    <div>
+                        <Heading variant="label-lg" className="text-neutral-950">
+                            {label}
+                        </Heading>
+                        {description && (
+                            <Paragraph variant="sm" className="text-neutral-600">
+                                {description}
+                            </Paragraph>
+                        )}
+                    </div>
+
+                    <SidebarTrigger className="ml-2 flex md:hidden" />
                 </div>
             </div>
             <div className="flex items-center gap-4">
@@ -40,7 +45,6 @@ export const Navbar = ({ icon, label, description, button, secondaryButton }: Pr
                 {secondaryButton && secondaryButton}
                 {/* the filled button */}
                 {button && button}
-                {/* <ThemeSwitcherButton /> */}
             </div>
         </header>
     );
