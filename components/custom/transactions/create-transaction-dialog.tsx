@@ -140,7 +140,7 @@ export const CreateTransactionDialog = ({ trigger, type }: Props) => {
                                 <FormItem>
                                     <FormLabel>Amount</FormLabel>
                                     <FormControl>
-                                        <Input type="tel" {...field} />
+                                        <Input type="number" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Transaction amount (required)

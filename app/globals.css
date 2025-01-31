@@ -96,3 +96,15 @@ body {
         @apply border-rose-700 bg-rose-500 text-gray-700 hover:!bg-rose-400 hover:!text-gray-950 dark:border-rose-500 dark:bg-rose-950 dark:text-white dark:hover:!bg-rose-700 dark:hover:!text-white;
     }
 }
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+    -moz-appearance: textfield;
+}

@@ -13,9 +13,9 @@ interface Props {
 
 export const Navbar = ({ icon, label, description, button, secondaryButton }: Props) => {
     return (
-        <header className="shadow-navbar sticky top-4 z-50 flex h-[72px] w-full rounded-[16px] border border-neutral-200 bg-card">
-            <div className="flex w-full items-center gap-3 p-4">
-                <div className="shadow-xs grid size-10 shrink-0 place-content-center rounded-[12px] border border-emerald-400/50 bg-emerald-400/10">
+        <header className="sticky top-4 z-50 flex h-fit w-full flex-col gap-4 rounded-[16px] border border-neutral-200 bg-card p-4 shadow-navbar md:h-[72px] md:flex-row">
+            <div className="flex w-full items-center gap-4">
+                <div className="grid size-10 shrink-0 place-content-center rounded-[12px] border border-emerald-400/50 bg-emerald-400/10 shadow-xs">
                     {icon && (
                         <Icon
                             icon={icon}
@@ -34,12 +34,13 @@ export const Navbar = ({ icon, label, description, button, secondaryButton }: Pr
                         </Paragraph>
                     )}
                 </div>
-
+            </div>
+            <div className="flex items-center gap-4">
                 {/* the outlined button */}
                 {secondaryButton && secondaryButton}
-
                 {/* the filled button */}
                 {button && button}
+                {/* <ThemeSwitcherButton /> */}
             </div>
         </header>
     );
