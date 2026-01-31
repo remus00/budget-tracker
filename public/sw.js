@@ -1,10 +1,28 @@
-self.addEventListener('push', function (event) {
+const CACHE_NAME = 'budget-tracker-v1';
+
+// Install event - cache essential files
+self.addEventListener('install', (event) => {
+    self.skipWaiting();
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+    event.waitUntil(clients.claim());
+});
+
+// Fetch event - network first, fallback to cache
+self.addEventListener('fetch', (event) => {
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
+});
+
+// Push notification handling
+self.addEventListener('push', (event) => {
     if (event.data) {
         const data = event.data.json();
         const options = {
             body: data.body,
-            icon: data.icon || '/icon.png',
-            badge: '/badge.png',
+            icon: data.icon || '/logo.png',
+            badge: '/logo.png',
             vibrate: [100, 50, 100],
             data: {
                 dateOfArrival: Date.now(),
@@ -15,8 +33,7 @@ self.addEventListener('push', function (event) {
     }
 });
 
-self.addEventListener('notificationclick', function (event) {
-    console.log('Notification click received.');
+self.addEventListener('notificationclick', (event) => {
     event.notification.close();
-    event.waitUntil(clients.openWindow('<https://your-website.com>'));
+    event.waitUntil(clients.openWindow('/'));
 });
