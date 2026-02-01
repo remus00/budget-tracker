@@ -17,7 +17,7 @@ export const CategoryStats = ({ userSettings, from, to }: Props) => {
         queryKey: ['overview', 'stats', 'categories', from, to],
         queryFn: () =>
             fetch(
-                `/api/stats/categories?from=${dateToUTCDate(from)}&to=${dateToUTCDate(to)}`
+                `/api/stats/categories?from=${dateToUTCDate(from).toISOString()}&to=${dateToUTCDate(to).toISOString()}`
             ).then((res) => res.json()),
     });
 

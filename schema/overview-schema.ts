@@ -7,12 +7,13 @@ export const OverviewQuerySchema = z
         from: z.coerce.date(),
         to: z.coerce.date(),
     })
-    .refine((args) => {
-        const { from, to } = args;
-
-        const days = differenceInDays(to, from);
-
-        const isValidRange = days > 0 && days <= MAX_DATE_RANGE_DAYS;
-
-        return isValidRange;
-    });
+    .refine(
+        (args) => {
+            const { from, to } = args;
+            const days = differenceInDays(to, from);
+            return days >= 0 && days <= MAX_DATE_RANGE_DAYS;
+        },
+        {
+            message: `Date range must be between 0 and ${MAX_DATE_RANGE_DAYS} days, with 'from' before or equal to 'to'`,
+        }
+    );

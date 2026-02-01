@@ -52,7 +52,7 @@ export const TransactionsTable = ({ from, to }: Props) => {
         queryKey: ['transactions', from, to],
         queryFn: () =>
             fetch(
-                `/api/transactions-history?from=${dateToUTCDate(from)}&to=${dateToUTCDate(to)}`
+                `/api/transactions-history?from=${dateToUTCDate(from).toISOString()}&to=${dateToUTCDate(to).toISOString()}`
             ).then((res) => res.json()),
     });
 

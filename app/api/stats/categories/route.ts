@@ -12,9 +12,12 @@ export async function GET(request: Request) {
     const from = searchParams.get('from');
     const to = searchParams.get('to');
 
+    console.log('Categories API received:', { from, to });
+
     const queryParams = OverviewQuerySchema.safeParse({ from, to });
 
     if (!queryParams.success) {
+        console.log('Validation failed:', queryParams.error.flatten());
         return Response.json(queryParams.error.message, { status: 400 });
     }
 

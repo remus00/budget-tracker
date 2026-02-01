@@ -1,7 +1,7 @@
 'use client';
 import { MAX_DATE_RANGE_DAYS } from '@/constants';
 import { UserSettings } from '@prisma/client';
-import { differenceInDays, startOfMonth } from 'date-fns';
+import { differenceInDays, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DateRangePicker } from '../../ui/date-range-picker';
@@ -9,11 +9,18 @@ import { Heading } from '../copy/heading';
 import { CategoryStats } from './category-stats';
 import { StatsCards } from './stats-cards';
 
+const getDefaultDateRange = () => {
+    const now = new Date();
+    return {
+        from: startOfMonth(subMonths(now, 1)),
+        to: endOfMonth(now),
+    };
+};
+
 export const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
-    const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
-        from: startOfMonth(new Date()),
-        to: new Date(),
-    });
+    const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>(
+        getDefaultDateRange
+    );
 
     return (
         <div className="mt-4 rounded-[16px] border border-neutral-200 bg-card p-4">

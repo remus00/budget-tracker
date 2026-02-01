@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const CategoriesCard = ({ formatter, data, type }: Props) => {
-    const filteredData = data.filter((item) => item.type === type);
+    const filteredData = data?.filter((item) => item.type === type);
 
     const totalAmount = filteredData.reduce(
         (acc, element) => acc + (element._sum?.amount || 0),
