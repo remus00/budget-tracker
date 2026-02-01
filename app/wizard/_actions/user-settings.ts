@@ -1,8 +1,10 @@
 'use server';
 
-import { db } from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { userSettings } from '@/db/schema';
 import { UpdateUserCurrencySchema } from '@/schema/user-settings-schema';
 import { currentUser } from '@clerk/nextjs/server';
+import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export async function updateUserCurrency(currency: string) {
@@ -16,10 +18,11 @@ export async function updateUserCurrency(currency: string) {
 
     if (!user) redirect('/sign-in');
 
-    const userSettings = await db.userSettings.update({
-        where: { userId: user.id },
-        data: { currency: currency },
-    });
+    const updated = await db
+        .update(userSettings)
+        .set({ currency })
+        .where(eq(userSettings.userId, user.id))
+        .returning();
 
-    return userSettings;
+    return updated[0];
 }

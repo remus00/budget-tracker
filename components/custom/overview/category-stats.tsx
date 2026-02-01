@@ -1,7 +1,7 @@
 import { GetCategoriesResponseType } from '@/app/api/stats/categories/route';
 import { SkeletonWrapper } from '@/components/skeleton/skeleton-wrapper';
 import { dateToUTCDate, getFormatterForCurrency } from '@/lib/helpers';
-import { UserSettings } from '@prisma/client';
+import type { UserSettings } from '@/db/schema';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { CategoriesCard } from './categories-card';

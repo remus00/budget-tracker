@@ -1,5 +1,7 @@
-import { db } from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { category } from '@/db/schema';
 import { currentUser } from '@clerk/nextjs/server';
+import { and, eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
@@ -9,11 +11,8 @@ export async function GET(request: Request) {
     if (!user) redirect('/sign-in');
 
     const { searchParams } = new URL(request.url);
-
     const paramType = searchParams.get('type');
-
     const validator = z.enum(['expense', 'income']).nullable();
-
     const queryParam = validator.safeParse(paramType);
 
     if (!queryParam.success) {
@@ -22,10 +21,15 @@ export async function GET(request: Request) {
 
     const type = queryParam.data;
 
-    const categories = await db.category.findMany({
-        where: { userId: user.id, ...(type && { type }) },
-        orderBy: { name: 'asc' },
-    });
+    const categories = await db
+        .select()
+        .from(category)
+        .where(
+            type
+                ? and(eq(category.userId, user.id), eq(category.type, type))
+                : eq(category.userId, user.id)
+        )
+        .orderBy(category.name);
 
     return Response.json(categories);
 }

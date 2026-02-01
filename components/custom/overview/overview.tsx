@@ -1,6 +1,6 @@
 'use client';
 import { MAX_DATE_RANGE_DAYS } from '@/constants';
-import { UserSettings } from '@prisma/client';
+import type { UserSettings } from '@/db/schema';
 import { differenceInDays, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { useState } from 'react';
 import { toast } from 'sonner';

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/command';
 import { cn } from '@/lib/utils';
 import { TransactionType } from '@/types/transactions';
-import { Category } from '@prisma/client';
+import type { Category } from '@/db/schema';
 import { useQuery } from '@tanstack/react-query';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';

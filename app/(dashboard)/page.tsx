@@ -3,9 +3,11 @@ import { Navbar } from '@/components/custom/navbar/navbar';
 import { Overview } from '@/components/custom/overview/overview';
 import { CreateTransactionDialog } from '@/components/custom/transactions/create-transaction-dialog';
 import { Button } from '@/components/ui/button';
-import { db } from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { userSettings } from '@/db/schema';
 import { currentUser } from '@clerk/nextjs/server';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 const HomePage = async () => {
@@ -13,11 +15,13 @@ const HomePage = async () => {
 
     if (!user) redirect('/sign-in');
 
-    const userSetting = await db.userSettings.findUnique({
-        where: {
-            userId: user.id,
-        },
-    });
+    const userSettingRows = await db
+        .select()
+        .from(userSettings)
+        .where(eq(userSettings.userId, user.id))
+        .limit(1);
+
+    const userSetting = userSettingRows[0];
 
     if (!userSetting) redirect('/wizard');
 
@@ -56,7 +60,6 @@ const HomePage = async () => {
                     />
                 }
             />
-            {/* <TestBreakpoint /> */}
             <Overview userSettings={userSetting} />
             <History userSettings={userSetting} />
         </div>

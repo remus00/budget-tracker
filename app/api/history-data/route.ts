@@ -1,9 +1,12 @@
-import { db } from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { monthHistory, yearHistory } from '@/db/schema';
 import { getHistoryDataSchema } from '@/schema/history-data-schema';
 import { HistoryData, Period, TimeFrame } from '@/types/history';
 import { currentUser } from '@clerk/nextjs/server';
+import { and, eq } from 'drizzle-orm';
 import { getDaysInMonth } from 'date-fns';
 import { redirect } from 'next/navigation';
+import { asc } from 'drizzle-orm';
 
 export async function GET(request: Request) {
     const user = await currentUser();
@@ -15,7 +18,11 @@ export async function GET(request: Request) {
     const year = searchParams.get('year');
     const month = searchParams.get('month');
 
-    const queryParams = getHistoryDataSchema.safeParse({ timeFrame, month, year });
+    const queryParams = getHistoryDataSchema.safeParse({
+        timeFrame,
+        month,
+        year,
+    });
 
     if (!queryParams.success) {
         return Response.json(queryParams.error.message, { status: 400 });
@@ -29,73 +36,83 @@ export async function GET(request: Request) {
     return Response.json(data);
 }
 
-const getHistoryData = async (userId: string, timeFrame: TimeFrame, period: Period) => {
+const getHistoryData = async (
+    userId: string,
+    timeFrame: TimeFrame,
+    period: Period
+) => {
     switch (timeFrame) {
         case 'year':
             return await getYearHistoryData(userId, period.year);
         case 'month':
-            return await getMonthHistoryData(userId, period.year, period.month);
+            return await getMonthHistoryData(
+                userId,
+                period.year,
+                period.month
+            );
     }
 };
 
 const getYearHistoryData = async (userId: string, year: number) => {
-    const result = await db.yearHistory.groupBy({
-        by: ['month'],
-        where: { userId, year },
-        _sum: { expense: true, income: true },
-        orderBy: { month: 'asc' },
-    });
+    const result = await db
+        .select()
+        .from(yearHistory)
+        .where(and(eq(yearHistory.userId, userId), eq(yearHistory.year, year)))
+        .orderBy(asc(yearHistory.month));
 
     if (!result || result.length === 0) return [];
 
     const history: HistoryData[] = [];
 
     for (let i = 0; i < 12; i++) {
-        let expense = 0;
-        let income = 0;
-
-        const month = result.find((row) => row.month === i);
-
-        if (month) {
-            expense = month._sum.expense || 0;
-            income = month._sum.income || 0;
-        }
-
-        history.push({ year, month: i, expense, income });
+        const row = result.find((r) => r.month === i);
+        history.push({
+            year,
+            month: i,
+            expense: row ? Number(row.expense) : 0,
+            income: row ? Number(row.income) : 0,
+        });
     }
 
     return history;
 };
 
-const getMonthHistoryData = async (userId: string, year: number, month: number) => {
-    const result = await db.monthHistory.groupBy({
-        by: ['day'],
-        where: { userId, year, month },
-        _sum: { expense: true, income: true },
-        orderBy: { day: 'asc' },
-    });
+const getMonthHistoryData = async (
+    userId: string,
+    year: number,
+    month: number
+) => {
+    const result = await db
+        .select()
+        .from(monthHistory)
+        .where(
+            and(
+                eq(monthHistory.userId, userId),
+                eq(monthHistory.year, year),
+                eq(monthHistory.month, month)
+            )
+        )
+        .orderBy(asc(monthHistory.day));
 
     if (!result || result.length === 0) return [];
 
     const history: HistoryData[] = [];
-
     const daysInMonth = getDaysInMonth(new Date(year, month));
 
     for (let i = 1; i <= daysInMonth; i++) {
-        let expense = 0;
-        let income = 0;
-
-        const day = result.find((row) => row.day === i);
-
-        if (day) {
-            expense = day._sum.expense || 0;
-            income = day._sum.income || 0;
-        }
-
-        history.push({ year, month, expense, income, day: i });
+        const row = result.find((r) => r.day === i);
+        history.push({
+            year,
+            month,
+            expense: row ? Number(row.expense) : 0,
+            income: row ? Number(row.income) : 0,
+            day: i,
+        });
     }
 
     return history;
 };
 
-export type GetHistoryDataResponseType = Awaited<ReturnType<typeof getHistoryData>>;
+export type GetHistoryDataResponseType = Awaited<
+    ReturnType<typeof getHistoryData>
+>;

@@ -1,4 +1,4 @@
-import { Category } from '@prisma/client';
+import type { Category } from '@/db/schema';
 
 export const CategoryRow = ({ category }: { category: Category }) => {
     return (
