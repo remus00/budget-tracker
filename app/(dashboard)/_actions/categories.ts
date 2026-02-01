@@ -1,5 +1,7 @@
 'use server';
-import { db } from '@/lib/prisma';
+
+import { db } from '@/lib/db';
+import { category } from '@/db/schema';
 import {
     CreateCategorySchema,
     CreateCategorySchemaType,
@@ -7,6 +9,7 @@ import {
     DeleteCategorySchemaType,
 } from '@/schema/categories-schema';
 import { currentUser } from '@clerk/nextjs/server';
+import { and, eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export async function createCategory(form: CreateCategorySchemaType) {
@@ -22,14 +25,17 @@ export async function createCategory(form: CreateCategorySchemaType) {
 
     const { name, icon, type } = parsedBody.data;
 
-    return await db.category.create({
-        data: {
+    const inserted = await db
+        .insert(category)
+        .values({
             userId: user.id,
             name,
             icon,
             type,
-        },
-    });
+        })
+        .returning();
+
+    return inserted[0];
 }
 
 export async function deleteCategory(form: DeleteCategorySchemaType) {
@@ -43,13 +49,13 @@ export async function deleteCategory(form: DeleteCategorySchemaType) {
 
     if (!user) redirect('/sign-in');
 
-    return await db.category.delete({
-        where: {
-            name_userId_type: {
-                userId: user.id,
-                name: parsedBody.data.name,
-                type: parsedBody.data.type,
-            },
-        },
-    });
+    await db
+        .delete(category)
+        .where(
+            and(
+                eq(category.userId, user.id),
+                eq(category.name, parsedBody.data.name),
+                eq(category.type, parsedBody.data.type)
+            )
+        );
 }

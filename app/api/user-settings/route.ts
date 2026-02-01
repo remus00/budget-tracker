@@ -1,5 +1,7 @@
-import { db } from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { userSettings } from '@/db/schema';
 import { currentUser } from '@clerk/nextjs/server';
+import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -8,16 +10,22 @@ export async function GET(request: Request) {
 
     if (!user) redirect('/sign-in');
 
-    let userSettings = await db.userSettings.findUnique({
-        where: { userId: user.id },
-    });
+    let userSettingsRows = await db
+        .select()
+        .from(userSettings)
+        .where(eq(userSettings.userId, user.id))
+        .limit(1);
 
-    if (!userSettings) {
-        userSettings = await db.userSettings.create({
-            data: { userId: user.id, currency: 'USD' },
-        });
+    let userSettingsRow = userSettingsRows[0];
+
+    if (!userSettingsRow) {
+        const inserted = await db
+            .insert(userSettings)
+            .values({ userId: user.id, currency: 'USD' })
+            .returning();
+        userSettingsRow = inserted[0];
     }
 
     revalidatePath('/');
-    return Response.json(userSettings);
+    return Response.json(userSettingsRow);
 }

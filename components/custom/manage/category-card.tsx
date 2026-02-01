@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Category } from '@prisma/client';
+import type { Category } from '@/db/schema';
 import { Trash } from 'lucide-react';
 import { DeleteCategoryDialog } from './delete-category-dialog';
 

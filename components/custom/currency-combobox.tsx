@@ -17,7 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Currencies } from '@/constants/currencies';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { ICurrency } from '@/types/currency';
-import { UserSettings } from '@prisma/client';
+import type { UserSettings } from '@/db/schema';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { SkeletonWrapper } from '../skeleton/skeleton-wrapper';

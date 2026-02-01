@@ -13,7 +13,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { TransactionType } from '@/types/transactions';
-import { Category } from '@prisma/client';
+import type { Category } from '@/db/schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 import { toast } from 'sonner';

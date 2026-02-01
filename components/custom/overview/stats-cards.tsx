@@ -2,7 +2,7 @@
 import { GetBalanceResponseType } from '@/app/api/stats/balance/route';
 import { SkeletonWrapper } from '@/components/skeleton/skeleton-wrapper';
 import { dateToUTCDate, getFormatterForCurrency } from '@/lib/helpers';
-import { UserSettings } from '@prisma/client';
+import type { UserSettings } from '@/db/schema';
 import { useQuery } from '@tanstack/react-query';
 import { TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import { useMemo } from 'react';

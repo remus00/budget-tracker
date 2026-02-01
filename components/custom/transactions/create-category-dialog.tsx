@@ -31,7 +31,7 @@ import { TransactionType } from '@/types/transactions';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category } from '@prisma/client';
+import type { Category } from '@/db/schema';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CircleOff, Loader2, PlusSquare } from 'lucide-react';
 import { useTheme } from 'next-themes';

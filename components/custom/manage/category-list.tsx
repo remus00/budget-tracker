@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { TransactionType } from '@/types/transactions';
-import { Category } from '@prisma/client';
+import type { Category } from '@/db/schema';
 import { useQuery } from '@tanstack/react-query';
 import { PlusSquare, TrendingDown, TrendingUp } from 'lucide-react';
 import { CreateCategoryDialog } from '../transactions/create-category-dialog';

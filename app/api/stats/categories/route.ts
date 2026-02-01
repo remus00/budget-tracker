@@ -1,6 +1,8 @@
-import { db } from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { transaction } from '@/db/schema';
 import { OverviewQuerySchema } from '@/schema/overview-schema';
 import { currentUser } from '@clerk/nextjs/server';
+import { and, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export async function GET(request: Request) {
@@ -12,12 +14,9 @@ export async function GET(request: Request) {
     const from = searchParams.get('from');
     const to = searchParams.get('to');
 
-    console.log('Categories API received:', { from, to });
-
     const queryParams = OverviewQuerySchema.safeParse({ from, to });
 
     if (!queryParams.success) {
-        console.log('Validation failed:', queryParams.error.flatten());
         return Response.json(queryParams.error.message, { status: 400 });
     }
 
@@ -31,26 +30,34 @@ export async function GET(request: Request) {
 }
 
 const getCategoriesStats = async (userId: string, from: Date, to: Date) => {
-    const stats = await db.transaction.groupBy({
-        by: ['type', 'category', 'categoryIcon'],
-        where: {
-            userId,
-            date: {
-                gte: from,
-                lte: to,
-            },
-        },
-        _sum: {
-            amount: true,
-        },
-        orderBy: {
-            _sum: {
-                amount: 'desc',
-            },
-        },
-    });
+    const rows = await db
+        .select({
+            type: transaction.type,
+            category: transaction.category,
+            categoryIcon: transaction.categoryIcon,
+            sum: sql<number>`coalesce(sum(${transaction.amount})::double precision, 0)`,
+        })
+        .from(transaction)
+        .where(
+            and(
+                eq(transaction.userId, userId),
+                gte(transaction.date, from),
+                lte(transaction.date, to)
+            )
+        )
+        .groupBy(
+            transaction.type,
+            transaction.category,
+            transaction.categoryIcon
+        )
+        .orderBy(desc(sql`sum(${transaction.amount})`));
 
-    return stats;
+    return rows.map((r) => ({
+        type: r.type,
+        category: r.category,
+        categoryIcon: r.categoryIcon,
+        _sum: { amount: Number(r.sum) },
+    }));
 };
 
 export type GetCategoriesResponseType = Awaited<ReturnType<typeof getCategoriesStats>>;

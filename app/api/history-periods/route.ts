@@ -1,6 +1,9 @@
-import { db } from '@/lib/prisma';
+import { db } from '@/lib/db';
+import { monthHistory } from '@/db/schema';
 import { currentUser } from '@clerk/nextjs/server';
+import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
+import { asc } from 'drizzle-orm';
 
 export async function GET(request: Request) {
     const user = await currentUser();
@@ -13,12 +16,11 @@ export async function GET(request: Request) {
 }
 
 const getHistoryPeriods = async (userId: string) => {
-    const result = await db.monthHistory.findMany({
-        where: { userId },
-        select: { year: true },
-        distinct: ['year'],
-        orderBy: { year: 'asc' },
-    });
+    const result = await db
+        .selectDistinct({ year: monthHistory.year })
+        .from(monthHistory)
+        .where(eq(monthHistory.userId, userId))
+        .orderBy(asc(monthHistory.year));
 
     const years = result.map((el) => el.year);
 
@@ -29,4 +31,6 @@ const getHistoryPeriods = async (userId: string) => {
     return years;
 };
 
-export type GetHistoryPeriodsResponseType = Awaited<ReturnType<typeof getHistoryPeriods>>;
+export type GetHistoryPeriodsResponseType = Awaited<
+    ReturnType<typeof getHistoryPeriods>
+>;
