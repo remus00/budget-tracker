@@ -2,9 +2,9 @@
 import { SkeletonWrapper } from '@/components/skeleton/skeleton-wrapper';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { UserSettings } from '@/db/schema';
 import { getFormatterForCurrency } from '@/lib/helpers';
 import { Period, TimeFrame } from '@/types/history';
-import type { UserSettings } from '@/db/schema';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import {
@@ -21,7 +21,7 @@ import { HistoryPeriodSelector } from './history-period-selector';
 import { CustomTooltip } from './tooltip/custom-tooltip';
 
 export const History = ({ userSettings }: { userSettings: UserSettings }) => {
-    const [timeFrame, setTimeFrame] = useState<TimeFrame>('month');
+    const [timeFrame, setTimeFrame] = useState<TimeFrame>('year');
     const [period, setPeriod] = useState<Period>({
         month: new Date().getMonth(),
         year: new Date().getFullYear(),

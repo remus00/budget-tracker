@@ -3,16 +3,23 @@
 import { Navbar } from '@/components/custom/navbar/navbar';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { MAX_DATE_RANGE_DAYS } from '@/constants';
-import { differenceInDays, startOfMonth } from 'date-fns';
+import { differenceInDays, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { TransactionsTable } from './transactions-table';
 
+const getDefaultDateRange = () => {
+    const now = new Date();
+    return {
+        from: startOfMonth(subMonths(now, 1)),
+        to: endOfMonth(now),
+    };
+};
+
 export const TransactionsPageWrapper = () => {
-    const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
-        from: startOfMonth(new Date()),
-        to: new Date(),
-    });
+    const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>(
+        getDefaultDateRange
+    );
 
     return (
         <>
